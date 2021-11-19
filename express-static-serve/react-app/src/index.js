@@ -2,6 +2,31 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
+class MainPage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showLogin: false,
+		};
+		this.loginBtnClick = this.loginBtnClick.bind(this);
+	}
+
+	loginBtnClick() {
+		this.setState ({
+			showLogin: true,
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<button onClick={this.loginBtnClick}>login</button>
+				{this.state.showLogin ? <LoginForm /> : null}
+			</div>
+		);
+	}
+}
+
 class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -58,5 +83,5 @@ class LoginForm extends React.Component {
 	}
 }
 
-ReactDOM.render(<LoginForm />, document.getElementById("root"));
+ReactDOM.render(<MainPage />, document.getElementById("root"));
 
