@@ -16,6 +16,89 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.post("/categories", 
+    (req, res)=>{
+    
+        const categ = req.body.category;
+        console.log(categ);
+
+        if(categ === "produce"){
+            const stmnt = "SELECT * FROM produce" ;
+        
+            db.query(stmnt, (err, result) => {
+                if(err){
+                    console.log("error: ", err);
+                }
+                else{
+                    console.log(result);
+                    res.send(result);
+                }
+                
+            });
+        }
+
+        if(categ === "dairy"){
+            const stmnt = "SELECT * FROM dairy" ;
+        
+            db.query(stmnt, (err, result) => {
+                if(err){
+                    console.log("error: ", err);
+                }
+                else{
+                    console.log(result);
+                    res.send(result);
+                }
+                
+            });
+        }
+
+        if(categ === "meat"){
+            const stmnt = "SELECT * FROM meat" ;
+        
+            db.query(stmnt, (err, result) => {
+                if(err){
+                    console.log("error: ", err);
+                }
+                else{
+                    console.log(result);
+                    res.send(result);
+                }
+                
+            });
+        }
+
+        if(categ === "pantry"){
+            const stmnt = "SELECT * FROM pantry" ;
+        
+            db.query(stmnt, (err, result) => {
+                if(err){
+                    console.log("error: ", err);
+                }
+                else{
+                    console.log(result);
+                    res.send(result);
+                }
+                
+            });
+        }
+
+        if(categ === "bakery"){
+            const stmnt = "SELECT * FROM bakery" ;
+        
+            db.query(stmnt, (err, result) => {
+                if(err){
+                    console.log("error: ", err);
+                }
+                else{
+                    console.log(result);
+                    res.send(result);
+                }
+                
+            });
+        }
+        
+});
+
 
 app.post("/login", (req, res)=>{
     const username = req.body.username;
