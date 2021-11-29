@@ -1,60 +1,88 @@
-const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
-const mysql = require('mysql');
-const cors = require('cors')
-const bodyParser = require('body-parser');
-const app = express();
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import Login from "./Login";
 
+class MainPage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			showLogin: false,
+		};
+		this.loginBtnClick = this.loginBtnClick.bind(this);
+	}
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "shop_app"
-});
+	loginBtnClick() {
+		this.setState ({
+			showLogin: true,
+		});
+	}
 
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+	render() {
+		return (
+			<div>
+				<button onClick={this.loginBtnClick}>login</button>
+				{this.state.showLogin ? <LoginForm /> : null}
+			</div>
+		);
+	}
+}
 
+class LoginForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: '',
+			password: '',
+		};
+		this.handleChange = this.handleChange.bind(this);
+	}
 
-app.post("/login", (req, res)=>{
-    const username = req.body.username;
-    const password = req.body.password;
-    const check = "SELECT username , password FROM logininfo WHERE username = ? and password = ?"; //check if the user exist
-    
-    db.query(check, [username, password], 
-        (err, result) => {
-            if(err){
-                console.log("error: ", err);
-            }
-            
-            else if (result.length === 0){
-               
-                const stmnt = "INSERT INTO logininfo (username, password) VALUES (?, ?)";
-                db.query(stmnt, [username, password], (err_1, result_1) => {
-                    if(err_1){
-                        console.log(err_1);
-                    }
-                    
-                    res.send(req.body);
-                });
-            }
-    });
-});
+	handleChange(event) {
+		const targetName = event.target.name
+		if (targetName === "email") {
+			this.setState({
+				email: event.target.value,
+				password: this.state.password,
+			});
+		}
+		else if (targetName === "email") {
+			this.setState({
+				email: this.state.email,
+				password: event.target.value,
+			});
+		}
+	}
 
+	handleSubmit(event) {
+		alert("login was submitted: ");
+		event.preventDefault();
+	}
 
-app.listen(3001, (err) => {
-    if(err){
-        console.log("error: ", err);
-    }
-    console.log("running on port 3001");
-    
-});
+	render() {
+		return (
+			<form onSubmit={this.handleSubmit}>
+				<label>
+					email:
+					<input 
+						name="email"
+						value={this.state.email} 
+						onChange={this.handleChange} 
+					/>
+				</label>
+				<label>
+					password:
+					<input 
+						name="password"
+						value={this.state.password}
+						onChange={this.handleChange}
+					/>
+				</label>
+				<input type="Submit" value="Submit" />
+			</form>
+		);
+	}
+}
 
-app.set('view engine', 'ejs')
-//app.use(expressLayouts);
+ReactDOM.render(<MainPage />, document.getElementById("root"));
 
-app.get('/', function (req, res) {
-  res.render('index', {});
-});
