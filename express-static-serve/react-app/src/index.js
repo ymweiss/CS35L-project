@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Axios from "axios";
 import App from "./App";
 import Login from "./Login";
+import Home from "./Home";
+
 
 class MainPage extends React.Component {
 	constructor(props) {
@@ -23,6 +26,7 @@ class MainPage extends React.Component {
 			<div>
 				<button onClick={this.loginBtnClick}>login</button>
 				{this.state.showLogin ? <LoginForm /> : null}
+				<Home />
 			</div>
 		);
 	}
@@ -32,7 +36,7 @@ class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
+			user: '',
 			password: '',
 		};
 		this.handleChange = this.handleChange.bind(this);
@@ -40,22 +44,32 @@ class LoginForm extends React.Component {
 
 	handleChange(event) {
 		const targetName = event.target.name
-		if (targetName === "email") {
+		if (targetName === "user") {
 			this.setState({
-				email: event.target.value,
+				user: event.target.value,
 				password: this.state.password,
 			});
 		}
-		else if (targetName === "email") {
+		else if (targetName === "password") {
 			this.setState({
-				email: this.state.email,
+				user: this.state.user,
 				password: event.target.value,
 			});
 		}
 	}
 
 	handleSubmit(event) {
-		alert("login was submitted: ");
+		//alert("login was submitted: ");
+		Axios.post("http://localhost:3001/login", {
+			username: this.state.user,
+			password: this.state.password,
+		}).then((response) => {
+			if(response.data) {
+				alert("added");
+			}
+		}, (error) => {
+			console.log(error);
+		});
 		event.preventDefault();
 	}
 
@@ -63,10 +77,10 @@ class LoginForm extends React.Component {
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<label>
-					email:
+					user:
 					<input 
-						name="email"
-						value={this.state.email} 
+						name="user"
+						value={this.state.user} 
 						onChange={this.handleChange} 
 					/>
 				</label>
