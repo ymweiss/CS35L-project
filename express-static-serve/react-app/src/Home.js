@@ -13,7 +13,7 @@ class Home extends React.Component {
             
             shopList: [],
             isCartUpdated: false,
-            isCatSelected: false
+            isCartSelected: false
         }
         this.getList = this.getList.bind(this);
         this.addToShoppingList = this.addToShoppingList.bind(this);
@@ -72,9 +72,9 @@ class Home extends React.Component {
 
     getList(props){
 
-            if(this.state.isCatSelected){
+            if(this.state.isCartSelected){
                 this.setState({
-                    isCatSelected: !this.state.isCatSelected,
+                    isCartSelected: !this.state.isCartSelected,
                     itemList: []
                 })
             }
@@ -87,7 +87,7 @@ class Home extends React.Component {
                 .then((Response) => {
                     this.setState(
                         {
-                            isCatSelected: !this.state.isCatSelected,
+                            isCartSelected: !this.state.isCartSelected,
                             itemList: Response.data
                         }
                     );
@@ -153,7 +153,7 @@ class Home extends React.Component {
                 
                 <div className="cartegories">
                     Shopping cartegories
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className="button"
                             onClick={ () => {
                                     this.getList("produce");
@@ -163,7 +163,7 @@ class Home extends React.Component {
                             Produce
                         </button>}
 
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" 
                             onClick={() => {
                                     this.getList("dairy")
@@ -172,7 +172,7 @@ class Home extends React.Component {
                             Dairy & Egg
                         </button>
                     }
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick= {()=>
                             this.getList("meat")
                         }>
@@ -180,7 +180,7 @@ class Home extends React.Component {
                         </button>
                     }
                     
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick = {
                             () => {
                                 this.getList("pantry")
@@ -189,7 +189,7 @@ class Home extends React.Component {
                             Pantry Essential
                         </button>
                     }
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick={() => {
                             this.getList("bakery")
                         }}>
@@ -197,14 +197,14 @@ class Home extends React.Component {
                         </button>
                     }
                     <div>
-                        {this.state.isCatSelected? rows: null}
+                        {this.state.isCartSelected? rows: null}
                     </div>
                     
                     
-                    {!this.state.isCatSelected? null:
+                    {!this.state.isCartSelected? null:
                             <button className="back-button" onClick={
                                 () => {this.setState({
-                                    isCatSelected: false,
+                                    isCartSelected: false,
                                     isCartUpdated: false,
                                 })}
                             }>
@@ -235,7 +235,7 @@ class Home extends React.Component {
             
             shopList: [],
             isCartUpdated: false,
-            isCatSelected: false
+            isCartSelected: false
         }
         this.getList = this.getList.bind(this);
         this.addToShoppingList = this.addToShoppingList.bind(this);
@@ -294,9 +294,9 @@ class Home extends React.Component {
 
     getList(props){
 
-            if(this.state.isCatSelected){
+            if(this.state.isCartSelected){
                 this.setState({
-                    isCatSelected: !this.state.isCatSelected,
+                    isCartSelected: !this.state.isCartSelected,
                     itemList: []
                 })
             }
@@ -309,7 +309,7 @@ class Home extends React.Component {
                 .then((Response) => {
                     this.setState(
                         {
-                            isCatSelected: !this.state.isCatSelected,
+                            isCartSelected: !this.state.isCartSelected,
                             itemList: Response.data
                         }
                     );
@@ -375,7 +375,7 @@ class Home extends React.Component {
                 
                 <div className="categories">
                     Shopping Categories
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className="button"
                             onClick={ () => {
                                     this.getList("produce");
@@ -385,7 +385,7 @@ class Home extends React.Component {
                             Produce
                         </button>}
 
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" 
                             onClick={() => {
                                     this.getList("dairy")
@@ -394,7 +394,7 @@ class Home extends React.Component {
                             Dairy & Egg
                         </button>
                     }
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick= {()=>
                             this.getList("meat")
                         }>
@@ -402,7 +402,7 @@ class Home extends React.Component {
                         </button>
                     }
                     
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick = {
                             () => {
                                 this.getList("pantry")
@@ -411,7 +411,7 @@ class Home extends React.Component {
                             Pantry Essential
                         </button>
                     }
-                    {this.state.isCatSelected? null: 
+                    {this.state.isCartSelected? null: 
                         <button className= "button" onClick={() => {
                             this.getList("bakery")
                         }}>
@@ -419,14 +419,14 @@ class Home extends React.Component {
                         </button>
                     }
                     <div>
-                        {this.state.isCatSelected? rows: null}
+                        {this.state.isCartSelected? rows: null}
                     </div>
                     
                     
-                    {!this.state.isCatSelected? null:
+                    {!this.state.isCartSelected? null:
                             <button className="back-button" onClick={
                                 () => {this.setState({
-                                    isCatSelected: false,
+                                    isCartSelected: false,
                                     isCartUpdated: false,
                                 })}
                             }>
