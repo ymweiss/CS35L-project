@@ -1,5 +1,4 @@
 const express = require('express');
-const expressLayouts = require('express-ejs-layouts');
 const mysql = require('mysql');
 const cors = require('cors')
 const bodyParser = require('body-parser');
