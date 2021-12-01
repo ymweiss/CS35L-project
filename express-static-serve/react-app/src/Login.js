@@ -1,18 +1,21 @@
-import React, {createContext, useContext} from "react";
+import React, {useState, useEffect} from "react";
 //import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Axios from "axios";
 import "./Login.css";
 import Home from "./Home";
 import ReactDOM from "react-dom";
-/*import {
+import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Routes,
   Link,
   useRouteMatch,
   useParams
 } from "react-router-dom";
-*/
+
+
+
 
 export class MainPage extends React.Component {
 	constructor(props) {
@@ -20,15 +23,27 @@ export class MainPage extends React.Component {
 		this.state = {
 			showLogin: false,
 			showRegister: false,
+			username: "",
 		};
 		this.loginBtnClick = this.loginBtnClick.bind(this);
 		this.registerBtnClick = this.registerBtnClick.bind(this);
+		this.changeUsername = this.changeUsername.bind(this);
+	}
+
+	changeUsername(usernameIn) {
+		this.props.changeUsername(usernameIn);
+		this.setState({
+			showLogin: this.state.showLogin,
+			showRegister: this.state.showRegister,
+			username: usernameIn,
+		});
 	}
 
 	loginBtnClick() {
 		this.setState ({
 			showLogin: true,
 			showRegister: this.state.showRegister,
+			username: this.state.username,
 		});
 	}
 
@@ -36,8 +51,10 @@ export class MainPage extends React.Component {
 		this.setState ({
 			showLogin: this.state.showLogin,
 			showRegister: true,
+			username: this.state.username,
 		});
 	}
+
 
 	render() {
 		return (
@@ -45,14 +62,15 @@ export class MainPage extends React.Component {
 				{!this.state.showRegister && !this.state.showLogin ?
 				<button onClick={this.loginBtnClick}>login</button> :
 				null}
-				{this.state.showLogin ? <LoginForm /> : null}
+				{this.state.showLogin ? 
+					<LoginForm changeUsername = {this.changeUsername} /> : 
+				null}
 
 				{!this.state.showLogin && !this.state.showRegister ?
 				<button onClick={this.registerBtnClick}>register</button> :
 				null}
 				{this.state.showRegister ? <RegisterForm /> : null}
 
-				<Home />
 			</div>
 		);
 	}
@@ -135,6 +153,7 @@ export class LoginForm extends React.Component {
 				<button onClick={() => {
 					const {user, password} = this.state;
 					handleLogin({user, password});
+					this.props.changeUsername(this.state.user);
 				}}>
 					Login
 				</button>
