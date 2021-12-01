@@ -9,19 +9,9 @@ const app = express();
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "kn1ght21", //use password for your mysql database
+    password: "", //use password for your mysql database
     database: "shop_app"
 });
-
-/*
-db.connect(function(err) {
-  if (err) {
-    return console.error('error: ' + err.message);
-  }
-
-  console.log('Connected to the MySQL server.');
-});
-*/
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -374,12 +364,3 @@ app.listen(3001, (err) => {
     console.log("running on port 3001");
 
 });
-
-/*
-app.set('view engine', 'ejs')
-//app.use(expressLayouts);
-
-app.get('/', function (req, res) {
-    res.render('index', {});
-});
-*/
