@@ -34,29 +34,54 @@ app.post("/login", (req, res) => {
     const id = req.body.id;
     const username = req.body.username;
     const password = req.body.password;
-    const check = "SELECT username , password FROM logininfo WHERE username = ? and password = ?"; //check if the user exist
+    const check = "SELECT username , password, balance FROM logininfo WHERE username = ? and password = ?"; //check if the user exist
 
     db.query(check, [username, password],
         (err, result) => {
+            console.log(result);
             if (err) {
                 console.log("error: ", err);
             }
 
             else if (result.length === 0) {
                 console.log("false");
-                res.send({ isLoggedIn: false });
+                res.send({ isLoggedIn: false, balance: 0 });
             }
 
             else {
                 console.log("true");
-                res.send({ isLoggedIn: true });
+                res.send({ isLoggedIn: true, balance: result[0].balance });
+
+            }
+
+        });
+});
+
+app.post("/restorelogin", (req, res) => {
+    console.log("login");
+    const username = req.body.username;
+    const check = "SELECT balance FROM logininfo WHERE username = ?";
+
+    db.query(check, [username],
+        (err, result) => {
+            console.log(result);
+            if (err) {
+                console.log("error: ", err);
+            }
+
+            else if (result.length === 0) {
+                console.log("false");
+            }
+
+            else {
+                console.log("true");
+                res.send({ balance: result[0].balance });
             }
 
         });
 });
 
 app.post("/giftcard", (req, res) => {
-    console.log("login");
     const giftcode = req.body.giftcode;
     const check = "SELECT code, card_balance FROM Gift_Cards WHERE code = ?"; //check if the code exists
     db.query(check, [giftcode],
@@ -74,6 +99,30 @@ app.post("/giftcard", (req, res) => {
                 console.log("true");
                 res.send({ isValid: true, balance: result[0].card_balance });
                 db.query("DELETE FROM Gift_Cards WHERE code = ?", [giftcode]);
+            }
+        });
+});
+
+app.post("/balance", (req, res) => {
+    const username = req.body.username;
+    const balance = req.body.balance;
+    const stmnt = "SELECT id, username, balance FROM logininfo WHERE username = ?"; //check if the code exists
+    db.query(stmnt, [username],
+        (err, result) => {
+            if (err) {
+                console.log("error: ", err);
+            }
+
+            else if (result.length === 0) {
+                console.log("error");
+            }
+
+            else {
+                console.log("true");
+                let idNum = result[0].id;
+                let currBalance = result[0].balance;
+                let newBalance = currBalance + balance;
+                db.query('UPDATE logininfo SET balance = ? WHERE id = ?', [newBalance, idNum]);
             }
         });
 });

@@ -24,20 +24,32 @@ export class MainPage extends React.Component {
 			showLogin: false,
 			showRegister: false,
 			username: "",
+			balance: 0
 		};
 		this.loginBtnClick = this.loginBtnClick.bind(this);
 		this.registerBtnClick = this.registerBtnClick.bind(this);
-		this.changeUsername = this.changeUsername.bind(this);
+		this.setUserData = this.setUserData.bind(this);
 
 	}
 
+	componentDidMount() {
+		if (this.props.username != "") {
+			this.setState({
+				username: this.props.username,
+				showLogin: true,
+				showRegister: true
+			});
+		}
+	}
 
-	changeUsername(usernameIn) {
+
+	setUserData(usernameIn, balance) {
 		this.props.changeUsername(usernameIn);
 		this.setState({
 			showLogin: this.state.showLogin,
 			showRegister: this.state.showRegister,
 			username: usernameIn,
+			balance: balance
 		});
 	}
 
@@ -66,17 +78,17 @@ export class MainPage extends React.Component {
 				{!this.state.showRegister && !this.state.showLogin && !isLoggedIn ?
 					<button onClick={this.loginBtnClick}>login</button> :
 					null}
-				{this.state.showLogin && !isLoggedIn ?
-					<LoginForm changeUsername={this.changeUsername} /> :
-					null}
+
+				<LoginForm username={this.state.username} setUserData={this.setUserData} />
 
 				{!this.state.showLogin && !this.state.showRegister ?
 					<button onClick={this.registerBtnClick}>register</button> :
 					null}
 				{this.state.showRegister && !isLoggedIn ?
-					<RegisterForm changeUsername={this.changeUsername} /> :
+					<RegisterForm setUserData={this.setUserData} /> :
 					null}
 				{isLoggedIn ? <Link to='/GiftCard'>Enter Gift Card</Link > : null}
+				{isLoggedIn ? <h1>Balance: ${this.state.balance}</h1 > : null}
 			</div>
 		);
 	}
@@ -121,6 +133,23 @@ export class LoginForm extends React.Component {
 		this.handleLogin = this.handleLogin.bind(this);
 	}
 
+	componentDidMount() {
+		if (this.props.username != "") {
+			this.setState({
+				user: this.props.username,
+				password: "",
+			});
+
+			Axios.post("http://localhost:3001/restorelogin", {
+				username: this.props.username,
+			}).then((response) => {
+				console.log("balance: " + response.data.balance);
+				this.props.setUserData(this.props.username, response.data.balance);
+			})
+		}
+	}
+
+
 	handleChange(event) {
 		const targetName = event.target.name
 		if (targetName === "user") {
@@ -144,7 +173,7 @@ export class LoginForm extends React.Component {
 		}).then((response) => {
 			if (response.data.isLoggedIn) {
 				alert("logged in");
-				this.props.changeUsername(this.state.user);
+				this.props.setUserData(this.state.user, response.data.balance);
 			}
 			else {
 				alert("not a valid username or password");
@@ -182,6 +211,7 @@ export class LoginForm extends React.Component {
 	}
 }
 
+
 export class RegisterForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -216,7 +246,7 @@ export class RegisterForm extends React.Component {
 		}).then((response) => {
 			if (!response.body) {
 				alert("account added");
-				this.props.changeUsername(this.state.user);
+				this.props.setUserData(this.state.user, 0);
 			}
 			else {
 				alert("user already exists");

@@ -18,6 +18,8 @@ class App extends React.Component {
 			username: "",
 		};
 		this.changeUsername = this.changeUsername.bind(this);
+		this.checkGiftCard = this.checkGiftCard.bind(this);
+		this.addBalance = this.addBalance.bind(this);
 	}
 
 	changeUsername(usernameIn) {
@@ -32,11 +34,20 @@ class App extends React.Component {
 			giftcode: code,
 		}).then((response) => {
 			if (response.data.isValid) {
-				alert("valid code. $" + response.data.balance + " added");
+				alert("valid code, $" + response.data.balance + " added");
+				this.addBalance(response.data.balance);
 			}
 			else {
 				alert("invalid code");
 			}
+		});
+	}
+
+	addBalance(balance) {
+		Axios.post("http://localhost:3001/balance", {
+			username: this.state.username,
+			balance: balance,
+		}).then(() => {
 		});
 	}
 
@@ -49,7 +60,7 @@ class App extends React.Component {
 						{/*<Route exact path="/main" element={<MainPage/>}></Route>*/}
 						<Route exact path="/" element={
 							<div>
-								<MainPage changeUsername={this.changeUsername} />
+								<MainPage username={this.state.username} changeUsername={this.changeUsername} />
 								<Home />
 							</div>
 						}></Route>
@@ -64,6 +75,6 @@ class App extends React.Component {
 			</div>
 		);
 	}
-
 }
+
 export default App;

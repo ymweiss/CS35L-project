@@ -17,11 +17,11 @@ USE `shop_app` ;
 -- -----------------------------------------------------
 -- Table `shop_app`.`Users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `shop_app`.`Users` (
+CREATE TABLE IF NOT EXISTS `shop_app`.`logininfo` (
   `id` INT NOT NULL,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
-  `balance` VARCHAR(45) NULL,
+  `balance` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
