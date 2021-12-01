@@ -6,67 +6,6 @@ import {BrowserRouter as Router,
     Link} from "react-router-dom";
 import "./Home.css";
 import Exit from "./Exit";
-
-function Search(){
-    const [searchStr, setSearchStr] = useState("");
-    const [items, setItems] = useState([]);
-
-    const searchItem = () => {
-        
-            Axios.post("http://localhost:3001/search", 
-            {search: searchStr})
-            .then( (response) => {
-                    setItems(response.data);
-            });
-        
-        
-
-    }
-
-    let searchRows = [];
-        for(let i =0; i < this.state.searchedList.length; i++){
-            searchRows.push(
-                <ul key="{i}">
-                    <li key="{i}"> 
-                        {this.state.searchedList[i].name} <br/>
-                        {this.state.searchedList[i].price} <br/>
-                        <button key = "{i}">Add</button>
-                    </li>
-                </ul>
-            );
-        }
-    return(
-        <div>
-            <div class="search">
-                <form>
-                    <input type="text" 
-                        onChange= {(v) => {
-                            setSearchStr(v.target.value);
-                            if( v.target.value.length <= 0){
-                                setItems([]);
-                            }
-                            else{
-                                searchItem();
-                            }
-                            
-                        }} 
-                    placeholder="Search"/>
-                    {/* <input type="submit" 
-                        value="Search"
-                    /> */}
-                </form>
-                {
-
-                }
-
-            </div>
-        </div>
-        
-    );
-
-}
-
-
 class Home extends React.Component {
     constructor(props){
         super(props);
