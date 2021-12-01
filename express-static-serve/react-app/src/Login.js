@@ -57,19 +57,23 @@ export class MainPage extends React.Component {
 
 
 	render() {
+		const isLoggedIn = (this.state.username != "");
 		return (
 			<div>
-				{!this.state.showRegister && !this.state.showLogin ?
+				{isLoggedIn ? <label>{this.state.username}</label> : null}
+				{!this.state.showRegister && !this.state.showLogin && !isLoggedIn ?
 				<button onClick={this.loginBtnClick}>login</button> :
 				null}
-				{this.state.showLogin ? 
+				{this.state.showLogin && !isLoggedIn ? 
 					<LoginForm changeUsername = {this.changeUsername} /> : 
 				null}
 
 				{!this.state.showLogin && !this.state.showRegister ?
 				<button onClick={this.registerBtnClick}>register</button> :
 				null}
-				{this.state.showRegister ? <RegisterForm /> : null}
+				{this.state.showRegister && !isLoggedIn ? 
+					<RegisterForm changeUsername = {this.changeUsername} /> : 
+				null}
 
 			</div>
 		);
@@ -210,6 +214,7 @@ export class RegisterForm extends React.Component {
 				<button onClick={() => {
 					const {user, password} = this.state;
 					handleRegister({user, password});
+					this.props.changeUsername(this.state.user);
 				}}>
 					Register
 				</button>

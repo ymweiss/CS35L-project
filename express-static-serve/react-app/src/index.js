@@ -8,4 +8,4 @@ import Home from "./Home";
 
 
 ReactDOM.render(<App />, document.getElementById("root"));
-
+//ReactDOM.render(<MainPage />, document.getElementById("root"));
