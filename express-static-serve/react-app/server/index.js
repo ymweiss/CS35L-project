@@ -222,6 +222,44 @@ app.post("/categories",
             });
         }
         
+    });
+
+app.get("/sales", (req, res) => {
+    const stmnt = "SELECT item_name FROM sale";
+    db.query(stmnt, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+app.get('/saleItem', (req, res) => {
+    const stmnt = "SELECT * FROM sale WHERE name=?";
+    const name = req.body;
+    db.query(stmnt, name, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+app.post('/checkSale', (req, res) => {
+    const stmnt = "SELECT * FROM sale WHERE name=?";
+    const name = req.body;
+    db.query(stmnt, name, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
 });
 
 
@@ -244,10 +282,39 @@ app.post("/login", (req, res)=>{
                         console.log(err_1);
                     }
                     
-                    res.send(req.body);
+                    res.send(req.body); 
                 });
             }
     });
+});
+
+app.post("/register", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const check = "SELECT username , password FROM logininfo WHERE username = ?"; //check if the user exist
+
+    db.query(check, username,
+        (err, result) => {
+            if (err) {
+                console.log("error: ", err);
+            }
+
+            else if (result.length === 0) {
+                const count = "SELECT COUNT(*) FROM logininfo";
+                db.query(count, (err_1, result_1) => {
+                    const id = result_1[0]['COUNT(*)'] + 1;
+                    const stmnt = "INSERT INTO logininfo (id, username, password) VALUES (?, ?, ?)";
+                    db.query(stmnt, [id, username, password], (err_2, result_2) => {
+                        if (err_2) {
+                            console.log(err_2);
+                        }
+
+                        res.send(req.body);
+                    });
+                });
+            }
+
+        });
 });
 
 

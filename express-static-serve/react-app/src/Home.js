@@ -18,9 +18,6 @@ function Search(){
             .then( (response) => {
                     setItems(response.data);
             });
-        
-        
-
     }
 
     let searchRows = [];
@@ -77,9 +74,13 @@ class Home extends React.Component {
             searchedList: [],
             isSearched: false,
             shopList: [],
-            isCatSelected: false
+            isCatSelected: false,
+            saleList: [],
+            saleItem: null
         }
+
         this.getList = this.getList.bind(this);
+        this.getSales = this.getSales.bind(this);
         this.addToShoppingList = this.addToShoppingList.bind(this);
         this.displayCart = this.displayCart.bind(this);
         this.cleanCartHistory = this.cleanCartHistory.bind(this);
@@ -88,8 +89,42 @@ class Home extends React.Component {
         this.searchItem = this.searchItem.bind(this);
     }
 
-   
 
+    getSales() { // get list of names of all items that are on sale
+        Axios.get("https://localhost3001/sales")
+        .then((response) => {
+            this.setState({
+                saleList: response.data,
+            });
+        })
+    }
+
+    getSaleItem() { // get all info of one sale item (name, quantity, price)
+        Axios.get("https://localhost3001/saleItem")
+            .then((response) => {
+                this.setState({
+                    saleItem: response.data,
+                });
+            })
+    }
+
+    applySales() {
+        this.getSales();
+        for (let i = 0; i < this.state.shopList.length; i++) {
+            if (this.state.saleList.includes(this.state.shopList[i].Name)) { //if the cart item is in the list of sale items
+                this.getSaleItem();
+                let price = this.State.shopList[i].Price;
+                let q = this.state.shopList.Quantity / this.state.saleItem[2]; //need floor division, # of times to apply discount
+                let temp_list = this.state.shopList;
+                temp_list[i].Price = price - (q * price) + (q * this.state.saleItem[3]); //apply discount
+                this.setState({
+                    shopList: temp_list
+                });
+            }
+        }
+
+    }
+   
     componentDidMount(){
         Axios.get("http://localhost:3001/cart")
         .then((response) => {
@@ -315,7 +350,12 @@ class Home extends React.Component {
                                 {this.cleanCartHistory()}}>
                                 Remove All 
                             </button>
-                            
+
+                            <button className="sales" onClick={ () =>
+                                {this.applySales()}}>
+                                Apply Discounts
+                                </button>
+                                 
                             <button className="checkout" onClick={ ()=>{
                                 this.cleanCartHistory();}
                             }>
