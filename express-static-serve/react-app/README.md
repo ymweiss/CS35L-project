@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+QuickShop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+QuickShop is an app that resembles Instacart and lets user do their grocery shopping online. 
+It is backed with a server, connected to a MySQL database, and does MySQL quires to retrieve information from the backend.
 
-## Available Scripts
+Home
 
-In the project directory, you can run:
+Main Features:
 
-### `yarn start`
+Categories:
+This list allows users to select their shopping category. When the category is selected, the user can browse an item on the list provided.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![home](./Home-img/Home.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Items List:
+Items list includes the items in the selected category. Picking an item makes it appear in the shopping cart. It also gives the user ability to increase the quantity of the item available in the shopping cart.
 
-### `yarn test`
+Back Button:
+Clicking it will clear the items' list from the screen.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![item-list](./Home-img/Home-items.png)
 
-### `yarn build`
+Shopping Cart:
+Displays the items that the user has chosen. It has the information providing the total of each item and its quantity. It also provides
+the increase-decrease buttons, so the user can modify the cart.
+At the bottom, it displays the overall cost of the shopping. 
+"Remove All" and "Checkout" buttons have the same functionality of emptying the cart.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![add-item](./Home-img/Home-addcart.png) ![add-item](./Home-img/Home-addcart-1.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![increase-item](./Home-img/Home-increase-1.png) ![increase-item](./Home-img/Home-increase-2.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Search Bar:
+By using the search bar, the user can search for a specific item in their mind, where the search engine will look through all the categories in the database and display items containing the searched word in their title. Additionally, it allows the user to add the item to the shopping cart by pressing the "Add" button.
 
-### `yarn eject`
+![search-item](./Home-img/Home-search.png) ![add-search-item](./Home-img/Home-search-add.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Logout:
+This link will exit the user.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![exit](./Home-img/Home-exit.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
