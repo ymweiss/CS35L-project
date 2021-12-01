@@ -16,15 +16,17 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			username: "",
+			balance: 0,
 		};
 		this.changeUsername = this.changeUsername.bind(this);
 		this.checkGiftCard = this.checkGiftCard.bind(this);
 		this.addBalance = this.addBalance.bind(this);
 	}
 
-	changeUsername(usernameIn) {
+	changeUsername(usernameIn, balanceIn) {
 		this.setState({
 			username: usernameIn,
+			balance: balanceIn,
 		});
 		console.log("username: " + this.state.username);
 	}
@@ -39,6 +41,7 @@ class App extends React.Component {
 			}
 			else {
 				alert("invalid code");
+				this.addBalance(0);
 			}
 		});
 	}
@@ -47,7 +50,11 @@ class App extends React.Component {
 		Axios.post("http://localhost:3001/balance", {
 			username: this.state.username,
 			balance: balance,
-		}).then(() => {
+		}).then((response) => {
+			this.setState({
+				username: this.state.username,
+				balance: response.data.balance,
+			});
 		});
 	}
 
@@ -57,10 +64,11 @@ class App extends React.Component {
 			<div>
 				<Router>
 					<Routes>
-						{/*<Route exact path="/main" element={<MainPage/>}></Route>*/}
 						<Route exact path="/" element={
 							<div>
-								<MainPage username={this.state.username} changeUsername={this.changeUsername} />
+								<MainPage username={this.state.username} 
+									balance={this.state.balance} changeUsername={this.changeUsername} 
+								/>
 								<Home />
 							</div>
 						}></Route>

@@ -24,7 +24,7 @@ export class MainPage extends React.Component {
 			showLogin: false,
 			showRegister: false,
 			username: "",
-			balance: 0
+			balance: 0,
 		};
 		this.loginBtnClick = this.loginBtnClick.bind(this);
 		this.registerBtnClick = this.registerBtnClick.bind(this);
@@ -37,14 +37,16 @@ export class MainPage extends React.Component {
 			this.setState({
 				username: this.props.username,
 				showLogin: true,
-				showRegister: true
+				showRegister: true,
+				balance: this.props.balance,
 			});
+			this.setUserData(this.props.username, this.props.balance);
 		}
 	}
 
 
 	setUserData(usernameIn, balance) {
-		this.props.changeUsername(usernameIn);
+		this.props.changeUsername(usernameIn, balance);
 		this.setState({
 			showLogin: this.state.showLogin,
 			showRegister: this.state.showRegister,
@@ -58,6 +60,7 @@ export class MainPage extends React.Component {
 			showLogin: true,
 			showRegister: this.state.showRegister,
 			username: this.state.username,
+			balance: this.state.balance,
 		});
 	}
 
@@ -66,6 +69,7 @@ export class MainPage extends React.Component {
 			showLogin: this.state.showLogin,
 			showRegister: true,
 			username: this.state.username,
+			balance: this.state.balance,
 		});
 	}
 
@@ -78,10 +82,11 @@ export class MainPage extends React.Component {
 				{!this.state.showRegister && !this.state.showLogin && !isLoggedIn ?
 					<button onClick={this.loginBtnClick}>login</button> :
 					null}
+				{this.state.showLogin && !isLoggedIn ? 
+					<LoginForm username={this.state.username} setUserData={this.setUserData} /> :
+				null}
 
-				<LoginForm username={this.state.username} setUserData={this.setUserData} />
-
-				{!this.state.showLogin && !this.state.showRegister ?
+				{!this.state.showLogin && !this.state.showRegister && !isLoggedIn?
 					<button onClick={this.registerBtnClick}>register</button> :
 					null}
 				{this.state.showRegister && !isLoggedIn ?
