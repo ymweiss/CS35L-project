@@ -236,23 +236,12 @@ app.get("/sales", (req, res) => {
     });
 });
 
-app.get('/saleItem', (req, res) => {
-    const stmnt = "SELECT * FROM sale WHERE name=?";
-    const name = req.body;
-    db.query(stmnt, name, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.send(result);
-        }
-    });
-});
 
 app.post('/checkSale', (req, res) => {
-    const stmnt = "SELECT * FROM sale WHERE name=?";
-    const name = req.body;
-    db.query(stmnt, name, (err, result) => {
+    const stmnt = "SELECT * FROM sale WHERE item_name= ?";
+    console.log(req.body.name);
+    const name = req.body.name;
+    db.query(stmnt, [name], (err, result) => {
         if (err) {
             console.log(err);
         }

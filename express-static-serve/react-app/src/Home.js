@@ -91,16 +91,17 @@ class Home extends React.Component {
 
 
     getSales() { // get list of names of all items that are on sale
-        Axios.get("https://localhost3001/sales")
+        Axios.get("http://localhost:3001/sales")
         .then((response) => {
             this.setState({
                 saleList: response.data,
             });
+
         })
     }
 
-    getSaleItem() { // get all info of one sale item (name, quantity, price)
-        Axios.get("https://localhost3001/saleItem")
+    checkSale(nameIn) {
+        Axios.post("http://localhost:3001/checkSale", {name: nameIn})
             .then((response) => {
                 this.setState({
                     saleItem: response.data,
@@ -111,12 +112,14 @@ class Home extends React.Component {
     applySales() {
         this.getSales();
         for (let i = 0; i < this.state.shopList.length; i++) {
-            if (this.state.saleList.includes(this.state.shopList[i].Name)) { //if the cart item is in the list of sale items
-                this.getSaleItem();
-                let price = this.State.shopList[i].Price;
-                let q = this.state.shopList.Quantity / this.state.saleItem[2]; //need floor division, # of times to apply discount
+            this.checkSale(this.state.shopList[i].Name); //check if cart item is in list of sale items
+            if (this.state.saleItem) {
+                alert(JSON.stringify(this.state.saleItem[0]));
+                let price = this.state.shopList[i].Price;
+                let quantity = this.state.shopList[i].Quantity;
+                let q = Math.floor(this.state.shopList[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
                 let temp_list = this.state.shopList;
-                temp_list[i].Price = price - (q * price) + (q * this.state.saleItem[3]); //apply discount
+                temp_list[i].Price = price - (q * (price/quantity)) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
                 this.setState({
                     shopList: temp_list
                 });
