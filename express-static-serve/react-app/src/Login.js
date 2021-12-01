@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 //import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Axios from "axios";
 import "./Login.css";
 import Home from "./Home";
 import ReactDOM from "react-dom";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Routes,
-  Link,
-  useRouteMatch,
-  useParams
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Routes,
+	Link,
+	useRouteMatch,
+	useParams
 } from "react-router-dom";
 
 
@@ -28,7 +28,9 @@ export class MainPage extends React.Component {
 		this.loginBtnClick = this.loginBtnClick.bind(this);
 		this.registerBtnClick = this.registerBtnClick.bind(this);
 		this.changeUsername = this.changeUsername.bind(this);
+
 	}
+
 
 	changeUsername(usernameIn) {
 		this.props.changeUsername(usernameIn);
@@ -40,7 +42,7 @@ export class MainPage extends React.Component {
 	}
 
 	loginBtnClick() {
-		this.setState ({
+		this.setState({
 			showLogin: true,
 			showRegister: this.state.showRegister,
 			username: this.state.username,
@@ -48,7 +50,7 @@ export class MainPage extends React.Component {
 	}
 
 	registerBtnClick() {
-		this.setState ({
+		this.setState({
 			showLogin: this.state.showLogin,
 			showRegister: true,
 			username: this.state.username,
@@ -62,24 +64,24 @@ export class MainPage extends React.Component {
 			<div>
 				{isLoggedIn ? <label>{this.state.username}</label> : null}
 				{!this.state.showRegister && !this.state.showLogin && !isLoggedIn ?
-				<button onClick={this.loginBtnClick}>login</button> :
-				null}
-				{this.state.showLogin && !isLoggedIn ? 
-					<LoginForm changeUsername = {this.changeUsername} /> : 
-				null}
+					<button onClick={this.loginBtnClick}>login</button> :
+					null}
+				{this.state.showLogin && !isLoggedIn ?
+					<LoginForm changeUsername={this.changeUsername} /> :
+					null}
 
 				{!this.state.showLogin && !this.state.showRegister ?
-				<button onClick={this.registerBtnClick}>register</button> :
-				null}
-				{this.state.showRegister && !isLoggedIn ? 
-					<RegisterForm changeUsername = {this.changeUsername} /> : 
-				null}
-
+					<button onClick={this.registerBtnClick}>register</button> :
+					null}
+				{this.state.showRegister && !isLoggedIn ?
+					<RegisterForm changeUsername={this.changeUsername} /> :
+					null}
+				{isLoggedIn ? <Link to='/GiftCard'>Enter Gift Card</Link > : null}
 			</div>
 		);
 	}
 }
-
+/*
 export const handleLogin = async values => {
 	Axios.post("http://localhost:3001/login", {
 		username: values.user,
@@ -93,7 +95,6 @@ export const handleLogin = async values => {
 		}
 	});
 }
-
 export const handleRegister = async values => {
 	Axios.post("http://localhost:3001/register", {
 		username: values.user,
@@ -107,7 +108,7 @@ export const handleRegister = async values => {
 		}
 	});
 }
-
+*/
 
 export class LoginForm extends React.Component {
 	constructor(props) {
@@ -117,6 +118,7 @@ export class LoginForm extends React.Component {
 			password: "",
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
 	}
 
 	handleChange(event) {
@@ -135,12 +137,27 @@ export class LoginForm extends React.Component {
 		}
 	}
 
+	handleLogin() {
+		Axios.post("http://localhost:3001/login", {
+			username: this.state.user,
+			password: this.state.password,
+		}).then((response) => {
+			if (response.data.isLoggedIn) {
+				alert("logged in");
+				this.props.changeUsername(this.state.user);
+			}
+			else {
+				alert("not a valid username or password");
+			}
+		});
+	}
+
 	render() {
 		return (
 			<div>
 				<label>
 					user:
-					<input 
+					<input
 						name="user"
 						onChange={this.handleChange}
 						value={this.state.user}
@@ -148,16 +165,15 @@ export class LoginForm extends React.Component {
 				</label>
 				<label>
 					password:
-					<input 
+					<input
 						name="password"
 						onChange={this.handleChange}
 						value={this.state.password}
 					/>
 				</label>
 				<button onClick={() => {
-					const {user, password} = this.state;
-					handleLogin({user, password});
-					this.props.changeUsername(this.state.user);
+					const { user, password } = this.state;
+					this.handleLogin();
 				}}>
 					Login
 				</button>
@@ -174,6 +190,7 @@ export class RegisterForm extends React.Component {
 			password: "",
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleRegister = this.handleRegister.bind(this);
 	}
 
 	handleChange(event) {
@@ -192,29 +209,43 @@ export class RegisterForm extends React.Component {
 		}
 	}
 
+	handleRegister() {
+		Axios.post("http://localhost:3001/register", {
+			username: this.state.user,
+			password: this.state.password,
+		}).then((response) => {
+			if (!response.body) {
+				alert("account added");
+				this.props.changeUsername(this.state.user);
+			}
+			else {
+				alert("user already exists");
+			}
+		});
+	}
+
 	render() {
 		return (
 			<div>
 				<label>
 					user:
-					<input 
+					<input
 						name="user"
-						onChange={this.handleChange} 
+						onChange={this.handleChange}
 						value={this.state.user}
 					/>
 				</label>
 				<label>
 					password:
-					<input 
+					<input
 						name="password"
 						onChange={this.handleChange}
 						value={this.state.password}
 					/>
 				</label>
 				<button onClick={() => {
-					const {user, password} = this.state;
-					handleRegister({user, password});
-					this.props.changeUsername(this.state.user);
+					const { user, password } = this.state;
+					this.handleRegister();
 				}}>
 					Register
 				</button>
@@ -222,5 +253,3 @@ export class RegisterForm extends React.Component {
 		);
 	}
 }
-
-
