@@ -6,6 +6,7 @@ import {BrowserRouter as Router,
     Link} from "react-router-dom";
 import "./Home.css";
 import Exit from "./Exit";
+import applySales from "./Discounts";
 
 function Search(){
     const [searchStr, setSearchStr] = useState("");
@@ -75,7 +76,6 @@ class Home extends React.Component {
             isSearched: false,
             shopList: [],
             isCatSelected: false,
-            saleList: [],
             saleItem: null
         }
 
@@ -86,34 +86,34 @@ class Home extends React.Component {
         this.increaseQuant = this.increaseQuant.bind(this);
         this.decreaseQuant = this.decreaseQuant.bind(this);
         this.searchItem = this.searchItem.bind(this);
-        this.applySales = this.applySales.bind(this);
+        //this.applySales = this.applySales.bind(this);
     }
 
 
-    applySales() {
-        for (let i = 0; i < this.state.shopList.length; i++) {
-            Axios.get("http://localhost:3001/checkSale", { params: { name: this.state.shopList[i].Name } })
-                .then((response) => {
-                    this.setState({
-                        saleItem: response.data,
-                    });
+    //applySales() {
+    //    for (let i = 0; i < this.state.shopList.length; i++) {
+    //        Axios.get("http://localhost:3001/checkSale", { params: { name: this.state.shopList[i].Name } })
+    //            .then((response) => {
+    //                this.setState({
+    //                    saleItem: response.data,
+    //                });
 
-            if (this.state.saleItem) {
-                //alert(i + JSON.stringify(this.state.saleItem));
-                if (this.state.saleItem.length > 0) {
-                    let quantity = this.state.shopList[i].Quantity;
-                    let price = quantity * this.state.saleItem[0]["base_price"];
-                    let q = Math.floor(this.state.shopList[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
-                    let temp_list = this.state.shopList;
-                    temp_list[i].Price = price - (q * this.state.saleItem[0]["base_price"]) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
-                    this.setState({
-                        shopList: temp_list
-                    });
-                }
-                    }
-                })
-        }
-    }
+    //        if (this.state.saleItem) {
+    //            //alert(i + JSON.stringify(this.state.saleItem));
+    //            if (this.state.saleItem.length > 0) {
+    //                let quantity = this.state.shopList[i].Quantity;
+    //                let price = quantity * this.state.saleItem[0]["base_price"];
+    //                let q = Math.floor(this.state.shopList[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
+    //                let temp_list = this.state.shopList;
+    //                temp_list[i].Price = price - (q * this.state.saleItem[0]["base_price"]) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
+    //                this.setState({
+    //                    shopList: temp_list
+    //                });
+    //            }
+    //                }
+    //            })
+    //    }
+    //}
 
  
    
@@ -343,8 +343,12 @@ class Home extends React.Component {
                                 Remove All 
                             </button>
 
-                            <button className="sales" onClick={ () =>
-                                {this.applySales()}}>
+                            <button className="sales" onClick={() => {
+                             //   alert(applySales(this.state.shopList[0]["name"]));
+                                this.setState(
+                                    { shopList: applySales(this.state.shopList) }
+                                );
+                            }}>
                                 Apply Discounts
                                 </button>
                                  
