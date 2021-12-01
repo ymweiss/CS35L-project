@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -27,7 +28,16 @@ class App extends React.Component {
 	}
 
 	checkGiftCard(code) {
-		console.log("checking gift card: " + code);
+		Axios.post("http://localhost:3001/giftcard", {
+			giftcode: code,
+		}).then((response) => {
+			if (response.data.isValid) {
+				alert("valid code. $" + response.data.balance + " added");
+			}
+			else {
+				alert("invalid code");
+			}
+		});
 	}
 
 

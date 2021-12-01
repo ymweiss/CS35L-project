@@ -55,6 +55,30 @@ app.post("/login", (req, res) => {
         });
 });
 
+app.post("/giftcard", (req, res) => {
+    console.log("login");
+    const giftcode = req.body.giftcode;
+    const check = "SELECT code, card_balance FROM Gift_Cards WHERE code = ?"; //check if the code exists
+    db.query(check, [giftcode],
+        (err, result) => {
+            if (err) {
+                console.log("error: ", err);
+            }
+
+            else if (result.length === 0) {
+                console.log("false");
+                res.send({ isValid: false, balance: 0 });
+            }
+
+            else {
+                console.log("true");
+                res.send({ isValid: true, balance: result[0].card_balance });
+                db.query("DELETE FROM Gift_Cards WHERE code = ?", [giftcode]);
+            }
+        });
+});
+
+
 app.post("/register", (req, res) => {
     console.log(`username: ${req.body.username}`);
     const username = req.body.username;
