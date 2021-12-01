@@ -224,29 +224,19 @@ app.post("/categories",
         
     });
 
-app.get("/sales", (req, res) => {
-    const stmnt = "SELECT item_name FROM sale";
-    db.query(stmnt, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.send(result);
-        }
-    });
-});
 
-
-app.post('/checkSale', (req, res) => {
+app.get('/checkSale', (req, res) => {
     const stmnt = "SELECT * FROM sale WHERE item_name= ?";
-    console.log(req.body.name);
-    const name = req.body.name;
+    console.log(req.query.name);
+    const name = req.query.name;  //req.body.name?
     db.query(stmnt, [name], (err, result) => {
         if (err) {
             console.log(err);
         }
         else {
+            console.log(result);
             res.send(result);
+            
         }
     });
 });

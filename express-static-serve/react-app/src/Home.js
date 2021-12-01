@@ -80,53 +80,42 @@ class Home extends React.Component {
         }
 
         this.getList = this.getList.bind(this);
-        this.getSales = this.getSales.bind(this);
         this.addToShoppingList = this.addToShoppingList.bind(this);
         this.displayCart = this.displayCart.bind(this);
         this.cleanCartHistory = this.cleanCartHistory.bind(this);
         this.increaseQuant = this.increaseQuant.bind(this);
         this.decreaseQuant = this.decreaseQuant.bind(this);
         this.searchItem = this.searchItem.bind(this);
+        this.applySales = this.applySales.bind(this);
     }
 
-
-    getSales() { // get list of names of all items that are on sale
-        Axios.get("http://localhost:3001/sales")
-        .then((response) => {
-            this.setState({
-                saleList: response.data,
-            });
-
-        })
-    }
-
-    checkSale(nameIn) {
-        Axios.post("http://localhost:3001/checkSale", {name: nameIn})
-            .then((response) => {
-                this.setState({
-                    saleItem: response.data,
-                });
-            })
-    }
 
     applySales() {
-        this.getSales();
         for (let i = 0; i < this.state.shopList.length; i++) {
-            this.checkSale(this.state.shopList[i].Name); //check if cart item is in list of sale items
-            if (this.state.saleItem) {
-                alert(JSON.stringify(this.state.saleItem[0]));
-                let price = this.state.shopList[i].Price;
-                let quantity = this.state.shopList[i].Quantity;
-                let q = Math.floor(this.state.shopList[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
-                let temp_list = this.state.shopList;
-                temp_list[i].Price = price - (q * (price/quantity)) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
-                this.setState({
-                    shopList: temp_list
-                });
-            }
-        }
+            Axios.get("http://localhost:3001/checkSale", { params: { name: this.state.shopList[i].Name } })
+                .then((response) => {
+                    this.setState({
+                        saleItem: response.data,
+                    });
 
+            if (this.state.saleItem) {
+                //alert(i + JSON.stringify(this.state.saleItem));
+                if (this.state.saleItem.length > 0) {
+                    let quantity = this.state.shopList[i].Quantity;
+                    let price = quantity * this.state.saleItem[0]["base_price"];
+                    let q = Math.floor(this.state.shopList[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
+                    let temp_list = this.state.shopList;
+                    temp_list[i].Price = price - (q * this.state.saleItem[0]["base_price"]) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
+                    this.setState({
+                        shopList: temp_list
+                    });
+                }
+                    }
+                })
+        }
     }
+
+ 
    
     componentDidMount(){
         Axios.get("http://localhost:3001/cart")
