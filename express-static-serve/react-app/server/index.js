@@ -10,7 +10,7 @@ const app = express();
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //use password for your mysql database
+    password: "kn1ght21", //use password for your mysql database
     database: "shop_app"
 });
 
@@ -70,8 +70,8 @@ app.post("/register", (req, res) => {
 				const count = "SELECT COUNT(*) FROM logininfo";
 				db.query(count, (err_1, result_1) => {
 					const id = result_1[0]['COUNT(*)'] + 1;
-					const stmnt = "INSERT INTO logininfo (id, username, password) VALUES (?, ?, ?)";
-					db.query(stmnt, [id, username, password], (err_2, result_2) => {
+					const stmnt = "INSERT INTO logininfo (id, username, password, balance) VALUES (?, ?, ?, ?)";
+					db.query(stmnt, [id, username, password, 0], (err_2, result_2) => {
 						if(err_2){
 							console.log(err_2);
 						}
