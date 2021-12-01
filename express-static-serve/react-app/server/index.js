@@ -10,7 +10,7 @@ const app = express();
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "sethdc01", //use password for your mysql database
+    password: "kn1ght21", //use password for your mysql database
     database: "shop_app"
 });
 
@@ -120,9 +120,10 @@ app.post("/balance", (req, res) => {
             else {
                 console.log("true");
                 let idNum = result[0].id;
-                let currBalance = result[0].balance;
+                let currBalance = parseInt(result[0].balance);
                 let newBalance = currBalance + balance;
                 db.query('UPDATE logininfo SET balance = ? WHERE id = ?', [newBalance, idNum]);
+				res.send({balance: newBalance});
             }
         });
 });
