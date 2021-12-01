@@ -18,7 +18,6 @@ This list allows users to select their shopping category. When the category is s
 ***Items List:***
 
 Items list includes the items in the selected category. Picking an item makes it appear in the shopping cart. It also gives the user ability to increase the quantity of the item available in the shopping cart.
-![Home-increase-1](https://user-images.githubusercontent.com/48963755/144194621-92d767aa-657b-49d3-854c-dd8f6e803179.png)
 
 ***Back Button:***
 
