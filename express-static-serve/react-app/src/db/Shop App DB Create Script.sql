@@ -30,10 +30,9 @@ ENGINE = InnoDB;
 -- Table `shop_app`.`Gift_Cards`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `shop_app`.`Gift_Cards` (
-  `id` INT NOT NULL,
-  `user_id` INT NULL,
+  `code` VARCHAR(45) NOT NULL,
   `card_balance` FLOAT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`code`))
 ENGINE = InnoDB;
 
 
@@ -47,6 +46,10 @@ CREATE TABLE IF NOT EXISTS `shop_app`.`Products` (
   `category` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `shop_app`.`Products`
+-- -----------------------------------------------------
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
