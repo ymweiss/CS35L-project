@@ -38,6 +38,20 @@ app.post("/shopping",
     }
 );
 
+app.post("/getBalance",
+    (req, res) => {
+        console.log(req.body);
+        const stmnt = "GET CURRENT BALANCE (?)";
+        db.queury(stmnt, [balance], (err, result) => { // needs to be updated to properly query the data base for the gift card balance
+            if (err)
+                console.log(err);
+            else {
+                console.log(result);
+                res.send(result);
+            }
+        })
+
+
 app.post("/increase", (req, res) => {
     const id = req.body.props.id;
     const name = req.body.props.Name;

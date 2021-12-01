@@ -77,7 +77,8 @@ class Home extends React.Component {
             searchedList: [],
             isSearched: false,
             shopList: [],
-            isCatSelected: false
+            isCatSelected: false,
+            paymentInformation: 0
         }
         this.getList = this.getList.bind(this);
         this.addToShoppingList = this.addToShoppingList.bind(this);
@@ -86,6 +87,7 @@ class Home extends React.Component {
         this.increaseQuant = this.increaseQuant.bind(this);
         this.decreaseQuant = this.decreaseQuant.bind(this);
         this.searchItem = this.searchItem.bind(this);
+        this.processPayment = this.processPayment.bind(this)
     }
 
    
@@ -201,6 +203,54 @@ class Home extends React.Component {
             });
         }
         
+    }
+
+    processPayment(number) {
+
+        //retrieve current balance from gift cards
+        Axios.post("http://localhost:3001/getBalance",
+            {
+                //request the users gift card balance provided the user is logged in
+            })
+
+
+
+
+            .then((response) => { // treatig response as storing the value of the giftard balance
+                //get current price to pay
+                totalPrice = 0
+                for (let i = 0; i < this.shopList.length; i++) {
+                    totalPrice += this.shopList[i].Price;
+                }
+
+                if (totalPrice == 0) {
+
+                    return 0; // no items to pay for
+                }
+
+                if (response >= totalPrice) {
+                    response -= totalPrice;
+                    //TODO: update the giftcard balance stored in the database
+                }
+                else {
+                    totalPrice -= response;
+                    //perform basic sanity checks on the number
+                    isNumber = true;
+                    for (let i = number.length - 1; i >= 0; i--) {
+                        const d = s.charCodeAt(i);
+                        if (d < 48 || d > 57) isNumber = false;
+                    }
+
+                }
+                if (!Nnumber.toString().length != 16 || !isNumber) {
+                    <p> credit card numbers must be 16 digit integers </p>
+                    return 1; //credit card numbers must be 16 digit integers
+                }
+
+                <p> Thank you for shopping at QuickShop</p>
+                cleanCartHistory();
+
+            });
     }
 
     
@@ -383,6 +433,24 @@ class Home extends React.Component {
                             </button>
                         }
                     
+                </div>
+
+              
+                <div class="payment">
+                    <input type="text" //provide a textbox to type payment information into
+                        value={this.state.paymentInformation} />
+                    <p>Pay for Purchase</p> 
+                    <button className="payPrompt" onClick={
+                        () => {
+                            this.setState({
+                                isPaymentedSelected: true,
+                            })
+                            processPayment(this.state.paymentInformation)
+                        }
+                    }>
+                      
+                        Pay
+                    </button>
                 </div>
             </div>
            
