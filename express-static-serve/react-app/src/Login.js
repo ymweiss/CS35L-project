@@ -79,7 +79,7 @@ export class MainPage extends React.Component {
 		);
 	}
 }
-
+/*
 export const handleLogin = async values => {
 	Axios.post("http://localhost:3001/login", {
 		username: values.user,
@@ -107,7 +107,7 @@ export const handleRegister = async values => {
 		}
 	});
 }
-
+*/
 
 export class LoginForm extends React.Component {
 	constructor(props) {
@@ -117,6 +117,7 @@ export class LoginForm extends React.Component {
 			password: "",
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
 	}
 
 	handleChange(event) {
@@ -133,6 +134,21 @@ export class LoginForm extends React.Component {
 				password: event.target.value,
 			});
 		}
+	}
+
+	handleLogin() {
+		Axios.post("http://localhost:3001/login", {
+			username: this.state.user,
+			password: this.state.password,
+		}).then((response) => {
+			if (response.data.isLoggedIn) {
+				alert("logged in");
+				this.props.changeUsername(this.state.user);
+			}
+			else {
+				alert("not a valid username or password");
+			}
+		});
 	}
 
 	render() {
@@ -156,8 +172,7 @@ export class LoginForm extends React.Component {
 				</label>
 				<button onClick={() => {
 					const {user, password} = this.state;
-					handleLogin({user, password});
-					this.props.changeUsername(this.state.user);
+					this.handleLogin();
 				}}>
 					Login
 				</button>
@@ -174,6 +189,7 @@ export class RegisterForm extends React.Component {
 			password: "",
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleRegister = this.handleRegister.bind(this);
 	}
 
 	handleChange(event) {
@@ -190,6 +206,21 @@ export class RegisterForm extends React.Component {
 				password: event.target.value,
 			});
 		}
+	}
+
+	handleRegister() {
+		Axios.post("http://localhost:3001/register", {
+			username: this.state.user,
+			password: this.state.password,
+		}).then((response) => {
+			if (!response.body) {
+				alert("account added");
+				this.props.changeUsername(this.state.user);
+			}
+			else {
+				alert("user already exists");
+			}
+		});
 	}
 
 	render() {
@@ -213,8 +244,7 @@ export class RegisterForm extends React.Component {
 				</label>
 				<button onClick={() => {
 					const {user, password} = this.state;
-					handleRegister({user, password});
-					this.props.changeUsername(this.state.user);
+					this.handleRegister();
 				}}>
 					Register
 				</button>
