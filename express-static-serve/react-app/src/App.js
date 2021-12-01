@@ -26,6 +26,11 @@ class App extends React.Component {
 		console.log("username: " + this.state.username);
 	}
 
+	checkGiftCard(code) {
+		console.log("checking gift card: " + code);
+	}
+
+
 	render() {
 		return (
 			<div>
@@ -38,7 +43,10 @@ class App extends React.Component {
 								<Home />
 							</div>
 						}></Route>
-						<Route exact path="/GiftCard" element={<GiftCard username={this.state.username} />}></Route>
+						<Route exact path="/GiftCard" element={
+							<GiftCard username={this.state.username}
+								checkGiftCard={this.checkGiftCard} />
+						}></Route>
 						<Route exact path="/exit" element={<Exit />}></Route>
 					</Routes>
 
