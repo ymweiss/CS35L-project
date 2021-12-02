@@ -37,5 +37,5 @@ To run the app, open 2 terminals. In the first one, run the client by running th
 In the other terminal, run 'npm run serve' from /express-static-serve/react-app/server.
 
 
-A sql script is provided in /express-static-serve/react-app/src/db. This script can be opened and run in Workbench to set up the schema. 
+A sql script (shop_app_create.sql) is provided in /express-static-serve/react-app/src/db. Open it in your connection on Workbench and execute it to create all the tables necessary for the app. You can use Workbench to manually insert values into the tables.
 	
