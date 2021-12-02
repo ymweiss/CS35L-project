@@ -83,7 +83,8 @@ class App extends React.Component {
 									let price = quantity * this.state.saleItem[0]["base_price"];
 									let q = Math.floor(this.state.list[i].Quantity / this.state.saleItem[0]["quantity"]); // # of times to apply discount
 									let temp_list = this.state.list;
-									temp_list[i].Price = price - (q * this.state.saleItem[0]["base_price"]) + (q * this.state.saleItem[0]["discount_price"]); //apply discount
+									temp_list[i].Price = price - (q * this.state.saleItem[0]["base_price"]) + 
+										(q * this.state.saleItem[0]["discount_price"]*this.state.saleItem[0]["base_price"]); //apply discount
 									this.setState({
 										list: temp_list
 									});
