@@ -9,7 +9,7 @@ const app = express();
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "", //use password for your mysql database
+    password: "password", //use password for your mysql database
     database: "shop_app"
 });
 
@@ -355,6 +355,22 @@ app.post("/categories",
         }
 
     });
+
+app.get('/checkSale', (req, res) => {
+    const stmnt = "SELECT * FROM sale WHERE item_name= ?";
+    console.log(req.query.name);
+    const name = req.query.name;  //req.body.name?
+    db.query(stmnt, [name], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(result);
+            res.send(result);
+
+        }
+    });
+});
 
 
 app.listen(3001, (err) => {
