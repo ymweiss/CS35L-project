@@ -254,6 +254,12 @@ class Home extends React.Component {
                                 {this.cleanCartHistory()}}>
                                 Remove All 
                             </button>
+
+                            <Link to="applyDiscounts">
+                                <button className="sales">
+                                    Apply Discounts
+                                </button>
+                            </Link>
                             
                             <button className="checkout" onClick={ ()=>{
                                 this.cleanCartHistory();}
