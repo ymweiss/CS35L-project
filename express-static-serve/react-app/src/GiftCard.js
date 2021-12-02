@@ -33,7 +33,7 @@ export default class GiftCard extends Component {
                 <Button onClick={this.handleSubmit} >
                     Submit
                 </Button>
-                <Link to='/'>Go back</Link>
+                <Link to='/home'>Go back</Link>
             </div>
         );
     }
