@@ -78,7 +78,6 @@ export class MainPage extends React.Component {
 		const isLoggedIn = (this.state.username != "");
 		return (
 			<div>
-				{isLoggedIn ? <label>{this.state.username}</label> : null}
 				{!this.state.showRegister && !this.state.showLogin && !isLoggedIn ?
 					<button onClick={this.loginBtnClick}>login</button> :
 					null}
@@ -92,8 +91,7 @@ export class MainPage extends React.Component {
 				{this.state.showRegister && !isLoggedIn ?
 					<RegisterForm setUserData={this.setUserData} /> :
 					null}
-				{isLoggedIn ? <Link to='/GiftCard'> Enter Gift Card</Link > : null}
-				{isLoggedIn ? <label>    Balance: ${this.state.balance}</label > : null}
+				{isLoggedIn ? <Link to='/home'>Go to homepage</Link > : null}
 			</div>
 		);
 	}
