@@ -97,18 +97,29 @@ class App extends React.Component {
 
 
 	render() {
+		const isLoggedIn = this.state.username != "";
 		return (
 			<div>
 				<Router>
 					<Routes>
-						<Route exact path="/" element={
-							<div>
-								<MainPage username={this.state.username} 
-									balance={this.state.balance} changeUsername={this.changeUsername} 
-								/>
-								<Home />
-							</div>
-						}></Route>
+						<Route exact path="/home" element={
+                        <div>
+                            {isLoggedIn ?
+                                <div>
+                                    <label>{this.state.username}</label>
+                                    <Link to='/GiftCard'> Enter Gift Card</Link >
+                                    <label> Balance: ${this.state.balance}</label>
+                                    <Home />
+                                </div> :
+                                <Link to='/'>login/register</Link >
+                            }
+                        </div>
+                        }></Route>
+                        <Route exact path="/" element={
+                            <MainPage username={this.state.username}
+                                balance={this.state.balance} changeUsername={this.changeUsername}
+                            />
+                        }></Route>
 						<Route exact path="/GiftCard" element={
 							<GiftCard username={this.state.username}
 								checkGiftCard={this.checkGiftCard} />
