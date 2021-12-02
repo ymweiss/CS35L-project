@@ -12,6 +12,8 @@ To be able to run this code use the following install commands in the given dire
 
 /express-static-serve/react-app:
 
+	npm install
+
 	npm install react
 	
 	npm install axios
