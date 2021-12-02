@@ -255,7 +255,7 @@ class Home extends React.Component {
                                 Remove All 
                             </button>
 
-                            <Link to="applyDiscounts">
+                            <Link to="/applyDiscounts">
                                 <button className="sales">
                                     Apply Discounts
                                 </button>
